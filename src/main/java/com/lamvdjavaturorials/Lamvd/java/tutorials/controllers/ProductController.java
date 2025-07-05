@@ -42,7 +42,12 @@ public class ProductController {
   // insert a new product
   @PostMapping("/insert")
   public ResponseEntity<ResponseObject> insertProduct(@RequestBody Product newProduct) {
-    List<Product> foundProducts = productRepository.findByProductName(newProduct.getProductName().trim());
+    String productName = newProduct.getProductName();
+    if (productName == null || productName.trim().isEmpty()) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+          .body(new ResponseObject("failed", "Product name must not be empty", ""));
+    }
+    List<Product> foundProducts = productRepository.findByProductName(productName.trim());
     if (foundProducts.size() > 0) {
       return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
           .body(new ResponseObject("failed", "Product name already exists", ""));

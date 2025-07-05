@@ -1,15 +1,19 @@
 package com.lamvdjavaturorials.Lamvd.java.tutorials.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "products")
 public class Product {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+  @Column(nullable = false, unique = true, length = 300)
   private String productName;
 
   public String getProductName() {
@@ -24,8 +28,8 @@ public class Product {
   private Double price;
   private String url;
 
+  // Default constructor for JPA
   public Product() {
-    // Default constructor for JPA
   }
 
   public Long getId() {

@@ -27,8 +27,11 @@ public class database {
   }
 
   private void saveIfNotExists(ProductRepository repo, Product product) {
-    if (repo.findAll().stream().noneMatch(p -> p.getProductName().equals(product.getProductName()))) {
+    if (repo.findAll().stream().noneMatch(
+        p -> p.getProductName() != null && p.getProductName().equals(product.getProductName()))) {
       repo.save(product);
+    } else {
+      logger.info("Product already exists: {}", product.getProductName());
     }
   }
 }
